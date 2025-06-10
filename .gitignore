@@ -1,0 +1,62 @@
+# ========================================
+# Java & Spring Boot
+# ========================================
+/target/
+build/
+
+# Ignore compiled class files
+*.class
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# ========================================
+# IntelliJ IDEA
+# ========================================
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# IntelliJ out directory (for compiled classes)
+out/
+
+# ========================================
+# Maven Wrapper
+# ========================================
+.mvn/wrapper/maven-wrapper.jar
+
+!mvnw
+!mvnw.cmd
+
+# ========================================
+# STS / Eclipse / VS Code
+# ========================================
+# Spring Tool Suite (STS)
+.apt_generated
+.factorypath
+.project
+.classpath
+.settings/
+.springBeans
+.sts4-cache/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# VS Code
+.vscode/
+
+# ========================================
+# OS / System Files
+# ========================================
+.DS_Store
+Thumbs.db
+
+# Help files
+HELP.md
