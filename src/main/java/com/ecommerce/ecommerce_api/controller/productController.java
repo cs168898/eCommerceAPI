@@ -64,8 +64,8 @@ public class productController {
     }
 
     // Search and return the list of products that is searched with the prefix.
-    @GetMapping("/search/{prefix}")
-    public List<Product> search(@PathVariable String prefix){
+    @GetMapping("/search")
+    public List<Product> search(@RequestParam String prefix){
         return productService.search(prefix);
     }
 }

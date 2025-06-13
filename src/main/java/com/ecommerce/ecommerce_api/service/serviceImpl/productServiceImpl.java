@@ -55,6 +55,6 @@ public class productServiceImpl implements productService {
 
     // Search for the products that are starting with the prefix
     public List<Product> search(String prefix){
-        return productRepository.findByNameStartingWith(prefix);
+        return productRepository.findByNameStartingWithIgnoreCase(prefix);
     }
 }

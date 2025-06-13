@@ -16,9 +16,5 @@ import java.util.Optional;
 @Repository
 public interface productRepository extends JpaRepository<Product, Integer> {
 
-    @Query("SELECT * " +
-            "FROM Product" +
-            "WHERE Product.name LIKE s%")
-    List<Product> findByNameStartingWith(@Param("prefix") String prefix);
-
+    List<Product> findByNameStartingWithIgnoreCase(String prefix);
 }
