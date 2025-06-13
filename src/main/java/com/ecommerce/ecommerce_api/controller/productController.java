@@ -62,4 +62,10 @@ public class productController {
         productService.delete(id);
 
     }
+
+    // Search and return the list of products that is searched with the prefix.
+    @GetMapping("/search/{prefix}")
+    public List<Product> search(@PathVariable String prefix){
+        return productService.search(prefix);
+    }
 }

@@ -17,4 +17,6 @@ public interface productService {
     void update(Product product , Integer id);
 
     void delete(Integer id);
+
+    List<Product> search(String prefix);
 }

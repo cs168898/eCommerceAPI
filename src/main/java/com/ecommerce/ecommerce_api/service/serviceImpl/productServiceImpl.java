@@ -52,4 +52,9 @@ public class productServiceImpl implements productService {
     public void delete(Integer id){
         productRepository.deleteById(id);
     }
+
+    // Search for the products that are starting with the prefix
+    public List<Product> search(String prefix){
+        return productRepository.findByNameStartingWith(prefix);
+    }
 }
