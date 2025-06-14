@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce_api.controller;
 
 import com.ecommerce.ecommerce_api.entity.Product;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +17,7 @@ public class productController {
     // dependency
 
     // final means that the variable cannot be reassigned to another thing later on. Something like 'const' in js
+    @Autowired
     private final productService productService;
 
     // create a constructor to inject productService as a dependency as product controller depends on it
