@@ -1,9 +1,9 @@
 package com.ecommerce.ecommerce_api.entity;
 
 
+import com.ecommerce.ecommerce_api.entity.associativeEntity.CartItem;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,13 +21,14 @@ public class Cart{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
-    private List<Product> items;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private List<CartItem> items;
     private BigDecimal totalPrice;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @OneToOne
-    @JoinColumn(name="user_id", nullable = false)
-    private User user;
+    // it is to say that the other attribute/column/field in another table managing the foreign key
+    @OneToOne(mappedBy = "cart")// <--- this "cart" refers to the field in Users.java
+    @JsonBackReference
+    private Users user;
 }

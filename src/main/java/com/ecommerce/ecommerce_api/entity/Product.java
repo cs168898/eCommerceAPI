@@ -1,15 +1,14 @@
 package com.ecommerce.ecommerce_api.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.ecommerce.ecommerce_api.entity.associativeEntity.CartItem;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,9 +26,14 @@ public class Product{
     private String name;
     private String description;
     private BigDecimal price;
+    // The total number of products in the shop
     private Integer quantity;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String url;
+
+    // mapping the association between one product to many cart items. Only required for bidirectional access
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItems;
 
 }

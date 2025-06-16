@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce_api.controller;
 
+import com.ecommerce.ecommerce_api.entity.Cart;
 import com.ecommerce.ecommerce_api.entity.Product;
 import com.ecommerce.ecommerce_api.repository.cartContentRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class cartController {
     }
 
     // find all the products that are inside the cart content repository
-    public List<Product> findAll(){
+    public List<Cart> findAll(){
         return repository.findAll();
     }
 
