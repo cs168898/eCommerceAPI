@@ -3,7 +3,11 @@ package com.ecommerce.ecommerce_api.entity.associativeEntity;
 import com.ecommerce.ecommerce_api.entity.Cart;
 import com.ecommerce.ecommerce_api.entity.Product;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class CartItem {
     @Id

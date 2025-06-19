@@ -2,12 +2,12 @@ package com.ecommerce.ecommerce_api.service.serviceImpl;
 
 import com.ecommerce.ecommerce_api.dto.ApiResponse;
 import com.ecommerce.ecommerce_api.dto.LoginRequest;
+import com.ecommerce.ecommerce_api.dto.UserDto;
 import com.ecommerce.ecommerce_api.dto.UserRegistrationRequest;
 import com.ecommerce.ecommerce_api.entity.Cart;
 import com.ecommerce.ecommerce_api.entity.Users;
 import com.ecommerce.ecommerce_api.repository.userRepository;
 import com.ecommerce.ecommerce_api.service.userService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -67,7 +67,7 @@ public class userServiceImpl implements userService {
 
     }
 
-    public ApiResponse<Users> login(LoginRequest request){
+    public ApiResponse<UserDto> login(LoginRequest request){
         try {
 
             Optional<Users> existingUser = repository.findByEmail(request.getEmail());
@@ -85,7 +85,7 @@ public class userServiceImpl implements userService {
             if(match){
                 // if successful login, get the user info
 
-                return new ApiResponse<>(true, "Log in Successful", existingUser.get());
+                return new ApiResponse<>(true, "Log in Successful", UserDto.toUserDto(existingUser.get()));
             } else{
                 return new ApiResponse<>(true, "Invalid email or password");
             }

@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce_api.controller;
 
 import com.ecommerce.ecommerce_api.dto.ApiResponse;
 import com.ecommerce.ecommerce_api.dto.LoginRequest;
+import com.ecommerce.ecommerce_api.dto.UserDto;
 import com.ecommerce.ecommerce_api.dto.UserRegistrationRequest;
 import com.ecommerce.ecommerce_api.entity.Users;
 import com.ecommerce.ecommerce_api.service.userService;
@@ -33,10 +34,10 @@ public class userController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<Users>> login(@RequestBody LoginRequest request){
+    public ResponseEntity<ApiResponse<UserDto>> login(@RequestBody LoginRequest request){
         // log in without token first
         // did not encrypt password YET
-        ApiResponse<Users> response = userService.login(request);
+        ApiResponse<UserDto> response = userService.login(request);
 
         if (!response.isSuccess()) {
             return ResponseEntity

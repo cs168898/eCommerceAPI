@@ -28,7 +28,7 @@ public class Users {
     @NotEmpty
     private String password;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
     private String shippingAddress;
     private String billingAddress;
     private LocalDateTime createdAt = LocalDateTime.now();
