@@ -32,6 +32,7 @@ public class Users {
     private String shippingAddress;
     private String billingAddress;
     private LocalDateTime createdAt = LocalDateTime.now();
+    private String roles = "ROLE_USER";
 
     // create a column called cart_id and cascade it to cart table
     @OneToOne(cascade = CascadeType.PERSIST)

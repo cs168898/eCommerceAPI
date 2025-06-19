@@ -19,6 +19,7 @@ public class UserDto {
     private String shippingAddress;
     private String billingAddress;
     private CartDto cart; // create a CartDto too, to avoid recursion
+    private String role;
     private boolean enabled;
 
     public static UserDto toUserDto(Users user) {
@@ -30,6 +31,7 @@ public class UserDto {
         userDto.setPhoneNumber(user.getPhoneNumber());
         userDto.setShippingAddress(user.getShippingAddress());
         userDto.setBillingAddress(user.getBillingAddress());
+        userDto.setRole(user.getRoles());
 
         if (user.getCart() != null) {
 

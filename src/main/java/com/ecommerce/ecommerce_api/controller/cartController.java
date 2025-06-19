@@ -44,9 +44,10 @@ public class cartController {
 
     }
 
-    @PostMapping("/add/{id}")
-    public boolean addItem(@PathVariable Integer id){
-
+    // add item to cart WORK IN PROGRESS
+    @PostMapping("/add/{productId}")
+    public boolean addItem(@PathVariable Integer productId){
+        return false;
     }
 
 }
