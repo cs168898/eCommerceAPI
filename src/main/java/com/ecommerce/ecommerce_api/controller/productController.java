@@ -21,6 +21,7 @@ public class productController {
 
     // create a constructor to inject productService as a dependency as product controller depends on it
     // this is to allow spring to inject the dependencies/matching bean when it sees this constructor
+    @Autowired
     public productController(productService productService) {
         this.productService = productService;
     }

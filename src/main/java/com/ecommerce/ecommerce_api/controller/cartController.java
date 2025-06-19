@@ -6,8 +6,7 @@ import com.ecommerce.ecommerce_api.entity.Users;
 import com.ecommerce.ecommerce_api.repository.cartContentRepository;
 import com.ecommerce.ecommerce_api.repository.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,15 +20,17 @@ public class cartController {
 
     private final userRepository userRepository;
 
+    @Autowired
     public cartController(cartContentRepository cartContentRepository, userRepository userRepository) {
         this.cartContentRepository = cartContentRepository;
         this.userRepository = userRepository;
     }
 
     // find all the products that are inside the cart content repository
-    public CartDto findAll(Integer userId){
+    @GetMapping("/{id}")
+    public CartDto findAll(@PathVariable Integer id){
 
-        Optional<Users> userOpt = userRepository.findById(userId);
+        Optional<Users> userOpt = userRepository.findById(id);
 
         if (userOpt.isPresent()) {
             Cart cart = userOpt.get().getCart();
@@ -40,6 +41,11 @@ public class cartController {
             // else just return an empty CartDto
             return new CartDto();
         }
+
+    }
+
+    @PostMapping("/add/{id}")
+    public boolean addItem(@PathVariable Integer id){
 
     }
 
