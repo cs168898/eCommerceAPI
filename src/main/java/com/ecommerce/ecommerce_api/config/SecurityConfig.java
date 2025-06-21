@@ -50,17 +50,13 @@ public class SecurityConfig {
 
                 // Configure endpoint authorization
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints
+                        // Public endpoints (everyone can access)
                         .requestMatchers("/api/user/register", "/api/user/login", "/api/user/generateToken",
                                 "/h2-console/**",
                                 "/api/products/**").permitAll()
 
-                        // Role-based endpoints
-                        .requestMatchers("/api/user/**").hasAuthority("ROLE_USER")
-                        .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-
-                        // All other endpoints require authentication
-                        .anyRequest().authenticated()
+                        // Now, this line will be used for all /api/cart/** requests
+                        .requestMatchers("/api/cart/**").hasAuthority("ROLE_USER") // Only logged-in users!
                 )
 
                 // Stateless session (required for JWT)

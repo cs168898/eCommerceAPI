@@ -11,6 +11,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,11 +20,22 @@ import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService {
-    public static final String SECRET = "5367566859703373367639792F423F452848284D6251655468576D5A71347437";
+    public static final String SECRET = "my-super-long-utf8-secret-key-1234567890";
+    byte[] keyBytes = SECRET.getBytes(StandardCharsets.UTF_8);
 
-    public String generateToken(String email) { // Use email as username
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, email);
+    private final Key signKey =
+            Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+
+    public String generateToken(String email) {
+        String jwt = Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(
+                        new Date(System.currentTimeMillis() + 1_800_000))
+                .signWith(signKey, SignatureAlgorithm.HS256)
+                .compact();
+        System.out.println("### JWT ISSUED → " + jwt);
+        return jwt;
     }
 
     // helper method to create the token
@@ -33,13 +45,13 @@ public class JwtServiceImpl implements JwtService {
                 .setSubject(email) // set the email as the subject
                 .setIssuedAt(new Date()) //set the issued date to the current date
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30)) // 30 mins expiry
-                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .signWith(Keys.hmacShaKeyFor(keyBytes), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     private Key getSignKey() {
         // decodes the secret string to a key to sign and verify JWTs
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        byte[] keyBytes = SECRET.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

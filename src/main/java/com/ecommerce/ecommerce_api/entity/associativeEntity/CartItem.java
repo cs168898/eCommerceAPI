@@ -18,7 +18,11 @@ public class CartItem {
     @ManyToOne
     private Cart cart;
 
+    // reference the product id , because if the prices change in the future
+    // and if we stored 'product' in the past , the price would not be reflecting
+    // the most updated version
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
     // the number of product in the cart
