@@ -1,12 +1,13 @@
 package com.ecommerce.ecommerce_api.service;
 
+import com.ecommerce.ecommerce_api.dto.ProductDto;
 import com.ecommerce.ecommerce_api.entity.Product;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface productService {
-    List<Product> findAll();
+    List<ProductDto> findAll();
 
     Optional<Product> findById(Integer id);
 

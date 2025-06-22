@@ -73,4 +73,16 @@ public class cartController {
         return ResponseEntity.ok(response.getMessage());
     }
 
+    @PostMapping("/{userId}/remove/{productId}")
+    public ResponseEntity<String> removeFromCart(@PathVariable Integer userId, @PathVariable Integer productId){
+        ApiResponse<Void> response = cartService.removeFromCart(userId, productId);
+
+        if(!response.isSuccess()){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(response.getMessage());
+        }
+
+        return ResponseEntity.ok(response.getMessage());
+    }
 }

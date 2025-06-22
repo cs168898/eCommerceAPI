@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce_api.entity;
 
 import com.ecommerce.ecommerce_api.entity.associativeEntity.CartItem;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -24,6 +25,7 @@ public class Cart{
     // the cascade is when u save a cart, it also persist
     // any new cartItem entities that have been added to the list
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @JsonManagedReference("cart-cartitem")
     private List<CartItem> items;
     private BigDecimal totalPrice;
     private LocalDateTime createdAt;

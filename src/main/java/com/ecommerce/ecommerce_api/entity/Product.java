@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce_api.entity;
 
 
 import com.ecommerce.ecommerce_api.entity.associativeEntity.CartItem;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -34,6 +35,7 @@ public class Product{
 
     // mapping the association between one product to many cart items. Only required for bidirectional access
     @OneToMany(mappedBy = "product")
+    @JsonManagedReference("product-cartitem")
     private List<CartItem> cartItems;
 
 }

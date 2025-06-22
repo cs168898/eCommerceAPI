@@ -72,9 +72,34 @@ public class cartServiceImpl implements cartService {
 
         }
 
-
-
-
         return new ApiResponse<>(true, "Product Added to cart");
     }
+
+    @Transactional
+    public ApiResponse<Void> removeFromCart(Integer userId, Integer productId){
+
+        Users user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+
+        Cart cart = user.getCart();
+
+        // check if the items already exist
+        Optional<CartItem> existingItemOpt = cart.getItems().stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst();
+
+        if(existingItemOpt.isPresent()){
+            // if the item exist
+           CartItem itemToRemove = existingItemOpt.get();
+
+           cart.getItems().remove(itemToRemove);
+
+           cartItemRepository.delete((itemToRemove));
+
+           return new ApiResponse<>(true, "The product has been successfully removed");
+        } else{
+            return new ApiResponse<>(false, "The productId" + productId + "does not exist in the cart");
+        }
+    }
 }
+

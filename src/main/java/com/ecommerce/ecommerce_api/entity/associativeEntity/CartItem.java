@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce_api.entity.associativeEntity;
 
 import com.ecommerce.ecommerce_api.entity.Cart;
 import com.ecommerce.ecommerce_api.entity.Product;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class CartItem {
 
     // the ManyToOne annotation means that there is many CartItem to one cart
     @ManyToOne
+    @JsonBackReference("cart-cartitem")
     private Cart cart;
 
     // reference the product id , because if the prices change in the future
@@ -23,6 +25,7 @@ public class CartItem {
     // the most updated version
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonBackReference("product-cartitem")
     private Product product;
 
     // the number of product in the cart

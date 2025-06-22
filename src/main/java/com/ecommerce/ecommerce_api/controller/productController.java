@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce_api.controller;
 
+import com.ecommerce.ecommerce_api.dto.ProductDto;
 import com.ecommerce.ecommerce_api.entity.Product;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class productController {
 
     // find all the products that are inside the product repository
     @GetMapping("/allProducts")
-    public List<Product> findAll(){
+    public List<ProductDto> findAll(){
         return productService.findAll();
     }
 

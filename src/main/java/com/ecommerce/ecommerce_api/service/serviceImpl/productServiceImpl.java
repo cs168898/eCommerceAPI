@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce_api.service.serviceImpl;
 
+import com.ecommerce.ecommerce_api.dto.ProductDto;
 import com.ecommerce.ecommerce_api.entity.Product;
 import com.ecommerce.ecommerce_api.repository.productRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import com.ecommerce.ecommerce_api.service.productService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class productServiceImpl implements productService {
@@ -15,8 +17,25 @@ public class productServiceImpl implements productService {
     @Autowired
     private productRepository productRepository;
 
-    public List<Product> findAll(){
-        return productRepository.findAll();
+    public List<ProductDto> findAll(){
+        List<Product> products = productRepository.findAll();
+
+        return products.stream().map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    // helper method to perform the conversion
+    private ProductDto convertToDto(Product product) {
+        ProductDto dto = new ProductDto();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setDescription(product.getDescription());
+        dto.setPrice(product.getPrice());
+        dto.setQuantity(product.getQuantity());
+        dto.setCreatedAt(product.getCreatedAt());
+        dto.setUpdatedAt(product.getUpdatedAt());
+        dto.setUrl(product.getUrl());
+        return dto;
     }
 
     // finds and return the product
