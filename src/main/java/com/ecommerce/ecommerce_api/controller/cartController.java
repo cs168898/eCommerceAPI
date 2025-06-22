@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,48 +42,73 @@ public class cartController {
     }
 
     // find all the products that are inside the cart content repository
-    @GetMapping("/{id}")
-    public CartDto findAll(@PathVariable Integer id){
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAll(Principal principal){
 
-        Optional<Users> userOpt = userRepository.findById(id);
+        String email = principal.getName();
 
-        if (userOpt.isPresent()) {
-            Cart cart = userOpt.get().getCart();
-            // convert the cart into its dto
+        try {
+            ApiResponse<CartDto> response = cartService.findCartForUser(email);
 
-            return CartDto.toCartDto(cart);
-        } else {
-            // else just return an empty CartDto
-            return new CartDto();
+            if (!response.isSuccess()) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(response.getMessage());
+            }
+
+            return ResponseEntity.ok(response.getData());
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND) // e.g., 404 Not Found
+                    .body(e.getMessage());
         }
 
     }
 
     // add item to cart WORK IN PROGRESS
-    @PostMapping("/{userId}/add/{productId}")
+    @PostMapping("/add/{productId}")
     public ResponseEntity<String> addItem(@PathVariable("productId") Integer productId,
-                                          @PathVariable("userId") Integer userId,
+                                          Principal principal,
                                           @RequestBody AddToCartRequest addToCartRequest){
-        ApiResponse<Void> response = cartService.addToCart(productId, userId, addToCartRequest);
-        if (!response.isSuccess()) {
+        // this will check if the user is authenticated or not
+
+        String email = principal.getName();
+        try{
+            ApiResponse<Void> response = cartService.addToCart(productId, email, addToCartRequest);
+            if (!response.isSuccess()) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(response.getMessage());
+            }
+
+            return ResponseEntity.ok(response.getMessage());
+        } catch (Exception e) {
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(response.getMessage());
+                    .status(HttpStatus.NOT_FOUND) // e.g., 404 Not Found
+                    .body(e.getMessage());
         }
 
-        return ResponseEntity.ok(response.getMessage());
     }
 
-    @PostMapping("/{userId}/remove/{productId}")
-    public ResponseEntity<String> removeFromCart(@PathVariable Integer userId, @PathVariable Integer productId){
-        ApiResponse<Void> response = cartService.removeFromCart(userId, productId);
+    @PostMapping("/remove/{productId}")
+    public ResponseEntity<String> removeFromCart(Principal principal, @PathVariable Integer productId){
 
-        if(!response.isSuccess()){
+        String email = principal.getName();
+
+        try {
+            ApiResponse<Void> response = cartService.removeFromCart(email, productId);
+
+            if(!response.isSuccess()){
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(response.getMessage());
+            }
+
+            return ResponseEntity.ok(response.getMessage());
+        } catch (Exception e) {
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(response.getMessage());
+                    .status(HttpStatus.NOT_FOUND) // e.g., 404 Not Found
+                    .body(e.getMessage());
         }
-
-        return ResponseEntity.ok(response.getMessage());
     }
 }

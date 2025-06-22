@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce_api.service.serviceImpl;
 
 import com.ecommerce.ecommerce_api.dto.AddToCartRequest;
 import com.ecommerce.ecommerce_api.dto.ApiResponse;
+import com.ecommerce.ecommerce_api.dto.CartDto;
 import com.ecommerce.ecommerce_api.entity.Cart;
 import com.ecommerce.ecommerce_api.entity.Product;
 import com.ecommerce.ecommerce_api.entity.Users;
@@ -29,24 +30,32 @@ public class cartServiceImpl implements cartService {
     @Autowired
     private cartItemRepository cartItemRepository;
 
+    public ApiResponse<CartDto> findCartForUser(String email){
+
+        Users user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+
+        CartDto cartDto = CartDto.toCartDto(user.getCart());
+
+        return new ApiResponse<>(true, "Successfully obtained the user cart", cartDto);
+    }
+
     @Transactional // transactional means that spring intercepts the call adn initiates a db transaction
-    public ApiResponse<Void> addToCart(Integer userId, Integer productId, AddToCartRequest addToCartRequest){
+    public ApiResponse<Void> addToCart(Integer productId, String email, AddToCartRequest addToCartRequest){
 
-        Optional<Users> users = userRepository.findById(userId);
-
-        Users user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+        Users user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found with ID: " + productId));
+                .orElseThrow(() -> new RuntimeException("Product not found with email: " + productId));
 
 
         // get the users cart
-        Cart cart = users.get().getCart();
+        Cart cart = user.getCart();
 
         if (cart == null) {
             // return RuntimeException if for some reason the cart dont exist
-            throw new RuntimeException("User with ID: " + userId + " does not have an associated cart.");
+            throw new RuntimeException("User with email: " + email + " does not have an associated cart.");
         }
 
 
@@ -76,10 +85,10 @@ public class cartServiceImpl implements cartService {
     }
 
     @Transactional
-    public ApiResponse<Void> removeFromCart(Integer userId, Integer productId){
+    public ApiResponse<Void> removeFromCart(String email, Integer productId){
 
-        Users user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+        Users user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
 
         Cart cart = user.getCart();
 
