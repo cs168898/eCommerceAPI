@@ -1,4 +1,4 @@
-# E-Commerce API
+# E-Commerce API (Work in progress)
 
 A Spring Boot backend API for an e-commerce platform. Features include user registration/login with JWT authentication, product management, shopping cart, and Stripe payment integration.
 
