@@ -2,6 +2,12 @@
 
 A Spring Boot backend API for an e-commerce platform. Features include user registration/login with JWT authentication, product management, shopping cart, and Stripe payment integration.
 
+## Work in Progress / TODO
+
+- Integrate user cart contents into the Stripe checkout process (currently, checkout requires manual product details in the request body)
+- Real-time Order Status and Inventory Notification System using WebSockets.
+- More to come! 
+
 ## Features
 
 - User registration and login (JWT-based authentication)
