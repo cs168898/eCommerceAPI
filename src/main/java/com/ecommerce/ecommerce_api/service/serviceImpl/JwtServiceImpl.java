@@ -34,7 +34,6 @@ public class JwtServiceImpl implements JwtService {
                         new Date(System.currentTimeMillis() + 1_800_000))
                 .signWith(signKey, SignatureAlgorithm.HS256)
                 .compact();
-        System.out.println("### JWT ISSUED → " + jwt);
         return jwt;
     }
 

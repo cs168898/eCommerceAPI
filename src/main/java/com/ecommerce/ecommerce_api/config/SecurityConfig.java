@@ -22,7 +22,7 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
 
-    // Constructor injection for required dependencies
+    // constructor injection for required dependencies
     public SecurityConfig(JwtAuthFilter jwtAuthFilter,
                           UserDetailsService userDetailsService) {
         this.jwtAuthFilter = jwtAuthFilter;
@@ -43,29 +43,29 @@ public class SecurityConfig {
 //                        .frameOptions((frame -> frame.sameOrigin())
 //                ));
         http
-                // Disable CSRF (not needed for stateless JWT)
+                // disable CSRF (not needed for stateless JWT)
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**").disable())
 
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
 
-                // Configure endpoint authorization
+                // configure endpoint authorization
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints (everyone can access)
                         .requestMatchers("/api/user/register", "/api/user/login", "/api/user/generateToken",
                                 "/h2-console/**",
                                 "/api/products/**").permitAll()
 
-                        // Now, this line will be used for all /api/cart/** requests
-                        .requestMatchers("/api/cart/**").hasAuthority("ROLE_USER") // Only logged-in users!
+                        // this line will be used for all /api/cart/** requests
+                        .requestMatchers("/api/cart/**", "/api/checkout").hasRole("USER")
                 )
 
-                // Stateless session (required for JWT)
+                // stateless session (required for JWT)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                // Set custom authentication provider
+                // set custom authentication provider
                 .authenticationProvider(authenticationProvider())
 
-                // Add JWT filter before Spring Security's default filter
+                // add JWT filter before Spring Security's default filter
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -77,8 +77,8 @@ public class SecurityConfig {
     }
 
     /*
-     * Authentication provider configuration
-     * Links UserDetailsService and PasswordEncoder
+     * authentication provider configuration
+     * links UserDetailsService and PasswordEncoder
      */
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -89,8 +89,8 @@ public class SecurityConfig {
     }
 
     /*
-     * Authentication manager bean
-     * Required for programmatic authentication (e.g., in /generateToken)
+     * authentication manager bean
+     * required for programmatic authentication (e.g., in /generateToken)
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
