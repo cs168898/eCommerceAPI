@@ -30,6 +30,7 @@ public class Cart{
     private BigDecimal totalPrice;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String currency = "SGD";
 
     // it is to say that the other attribute/column/field in another table managing the foreign key
     @OneToOne(mappedBy = "cart")// <--- this "cart" refers to the field in Users.java

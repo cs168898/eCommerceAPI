@@ -16,20 +16,22 @@ public class CartDto {
     private Integer id;
     private BigDecimal totalPrice;
     private List<CartItemDto> items;
+    private String currency;
 
     public static CartDto toCartDto(Cart cart) {
-        CartDto dto = new CartDto();
-        dto.setId(cart.getId());
-        dto.setTotalPrice(cart.getTotalPrice());
+        CartDto cartDto = new CartDto();
+        cartDto.setId(cart.getId());
+        cartDto.setTotalPrice(cart.getTotalPrice());
+        cartDto.setCurrency(cart.getCurrency());
         // Map each CartItem entity to CartItemDto
         if (cart.getItems() != null) {
             List<CartItemDto> itemDtos = cart.getItems()
                     .stream()
                     .map(CartItemDto::toCartItemDto)
                     .collect(Collectors.toList());
-            dto.setItems(itemDtos);
+            cartDto.setItems(itemDtos);
         }
-        return dto;
+        return cartDto;
     }
 }
 

@@ -15,11 +15,11 @@ public class CartItemDto {
     private Integer productId;
     private int quantity;
 
-    // Converts CartItem entity to CartItemDto
+    // converts CartItem entity to CartItemDto
     public static CartItemDto toCartItemDto(CartItem cartItem) {
         CartItemDto dto = new CartItemDto();
         dto.setId(cartItem.getId());
-        dto.setProductId(cartItem.getProduct().getId()); // Assume you have getProduct()
+        dto.setProductId(cartItem.getProduct().getId());
         dto.setQuantity(cartItem.getQuantity());
         return dto;
     }
