@@ -27,23 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/user")
 public class userController {
 
-
-    private final userService userService;
-
-    private JwtService jwtService;
-
-    private AuthenticationManager authenticationManager;
-
-    //constructor
     @Autowired
-    public userController(
-            userService userService,
-            JwtService jwtservice,
-            AuthenticationManager authenticationManager) {  // Assume your class is named 'userController'
-        this.userService = userService;
-        this.jwtService = jwtservice;
-        this.authenticationManager = authenticationManager;
-    }
+    private userService userService;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody UserRegistrationRequest user){

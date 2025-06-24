@@ -18,14 +18,8 @@ public class productController {
     // dependency
 
     // final means that the variable cannot be reassigned to another thing later on. Something like 'const' in js
-    private final productService productService;
-
-    // create a constructor to inject productService as a dependency as product controller depends on it
-    // this is to allow spring to inject the dependencies/matching bean when it sees this constructor
     @Autowired
-    public productController(productService productService) {
-        this.productService = productService;
-    }
+    private productService productService;
 
     // find all the products that are inside the product repository
     @GetMapping("/allProducts")
