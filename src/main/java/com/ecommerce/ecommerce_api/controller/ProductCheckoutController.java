@@ -8,6 +8,8 @@ import com.ecommerce.ecommerce_api.entity.Cart;
 import com.ecommerce.ecommerce_api.service.StripeService;
 import com.ecommerce.ecommerce_api.service.cartService;
 import com.ecommerce.ecommerce_api.service.serviceImpl.StripeServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,15 +23,11 @@ import java.security.Principal;
 @RequestMapping("/api")
 public class ProductCheckoutController {
 
-    private final StripeService stripeService;
+    @Autowired
+    private StripeService stripeService;
 
-    private final cartService cartService;
-
-    public ProductCheckoutController(StripeServiceImpl stripeService,
-                                     cartService cartService){
-        this.stripeService = stripeService;
-        this.cartService = cartService;
-    }
+    @Autowired
+    private cartService cartService;
 
     @PostMapping("/checkout")
     public ResponseEntity<StripeResponse> checkoutProducts(Principal principal){
