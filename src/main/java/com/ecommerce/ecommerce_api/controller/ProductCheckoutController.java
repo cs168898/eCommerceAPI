@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce_api.controller;
 import com.ecommerce.ecommerce_api.dto.ProductRequest;
 import com.ecommerce.ecommerce_api.dto.StripeResponse;
 import com.ecommerce.ecommerce_api.service.StripeService;
+import com.ecommerce.ecommerce_api.service.serviceImpl.StripeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ProductCheckoutController {
 
-    private StripeService stripeService;
+    private final StripeService stripeService;
 
-    public ProductCheckoutController(StripeService stripeService){
+    public ProductCheckoutController(StripeServiceImpl stripeService){
         this.stripeService = stripeService;
     }
 
