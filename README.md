@@ -4,7 +4,6 @@ A Spring Boot backend API for an e-commerce platform. Features include user regi
 
 ## Work in Progress / TODO
 
-- Integrate user cart contents into the Stripe checkout process (currently, checkout requires manual product details in the request body)
 - Real-time Order Status and Inventory Notification System using WebSockets.
 - More to come! 
 
