@@ -25,21 +25,12 @@ import java.util.Optional;
 public class cartController {
 
     // dependency
-    private final cartContentRepository cartContentRepository;
-
-    private final userRepository userRepository;
-
-    private final cartService cartService;
-
     @Autowired
-    public cartController(cartContentRepository cartContentRepository,
-                          userRepository userRepository,
-                          cartService cartService
-    ) {
-        this.cartContentRepository = cartContentRepository;
-        this.userRepository = userRepository;
-        this.cartService = cartService;
-    }
+    private cartContentRepository cartContentRepository;
+    @Autowired
+    private userRepository userRepository;
+    @Autowired
+    private cartService cartService;
 
     // find all the products that are inside the cart content repository
     @GetMapping("/findAll")
