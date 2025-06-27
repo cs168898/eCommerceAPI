@@ -27,14 +27,14 @@ public class JwtServiceImpl implements JwtService {
             Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
     public String generateToken(String email) {
-        String jwt = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(
                         new Date(System.currentTimeMillis() + 1_800_000))
                 .signWith(signKey, SignatureAlgorithm.HS256)
                 .compact();
-        return jwt;
+
     }
 
     // helper method to create the token
