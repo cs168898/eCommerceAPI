@@ -52,8 +52,16 @@ const App: React.FC = () => {
   if (!token) {
     return (
       <div>
-         <div>Please Login / Register to view products.</div>
-        <button onClick={toggleLoginWindow}> Log in </button>
+        {
+          (!loginWindowVisible && !registerWindowVisible ) && (
+            <>
+              <div>Please Login / Register to view products.</div>
+              <button onClick={toggleLoginWindow}> Log in </button>
+              <button onClick={toggleRegisterWindow}> Register </button>
+            </>
+          ) 
+        }
+         
         {loginWindowVisible && (
           <LoginForm
             onLogin={(email, password) => {
@@ -89,9 +97,7 @@ const App: React.FC = () => {
             onClose={toggleLoginWindow}
           />
         )
-
         }
-        <button onClick={toggleRegisterWindow}> Register </button>
         {registerWindowVisible && (
           <RegisterForm
             onRegister={(username, email, password) => {
