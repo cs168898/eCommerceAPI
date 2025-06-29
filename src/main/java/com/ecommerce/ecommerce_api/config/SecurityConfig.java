@@ -15,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -43,6 +46,7 @@ public class SecurityConfig {
 //                        .frameOptions((frame -> frame.sameOrigin())
 //                ));
         http
+
                 // disable CSRF (not needed for stateless JWT)
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**").disable())
 
@@ -53,7 +57,11 @@ public class SecurityConfig {
                         // Public endpoints (everyone can access)
                         .requestMatchers("/api/user/register", "/api/user/login", "/api/user/generateToken",
                                 "/h2-console/**",
-                                "/api/products/**").permitAll()
+                                "/api/products/**",
+                                "/ws/**",
+                                "app/**",
+                                "topic/**",
+                                "**").permitAll()
 
                         // this line will be used for all /api/cart/** requests
                         .requestMatchers("/api/cart/**", "/api/checkout").hasRole("USER")
@@ -95,5 +103,18 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:5173"); // your frontend origin
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }
