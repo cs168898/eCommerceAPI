@@ -12,6 +12,7 @@ export function useWebSocket(
         // check if the token exists
         if(!token) {
             alert('The token is expired or does not exist!');
+            return;
         };
 
         const client = new Client({

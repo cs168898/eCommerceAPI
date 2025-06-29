@@ -40,11 +40,12 @@ const App: React.FC = () => {
 
   // ================ ON PAGE LOAD ================
 
+  useWebSocket(Cookies.get('jwt') ?? null, handleMessage);
+
   useEffect(() => {
     if (token){
       // ts automatically parses the products json
       fetchProducts().then(setProducts);
-      useWebSocket(token, handleMessage);
     }
   }, [token]);
 
@@ -125,7 +126,7 @@ const App: React.FC = () => {
   // ================= USER LOGGED IN ===================
   return (
     <div>
-      <h1>WebSocket Demo</h1>
+      <h1>Hello, {username}</h1>
       <ul>
         {greetings.map((g, i) => (
           <li key={i}>{g}</li>
